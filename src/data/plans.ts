@@ -1,0 +1,55 @@
+import type { Plan } from '@/types'
+
+export const PLANS: Plan[] = [
+  {
+    id: 'free',
+    name: 'Free',
+    price: 'Free',
+    priceSuffix: ':)',
+    tagline: 'Just try it',
+    featured: false,
+    ctaLabel: 'Start Free',
+    ctaAction: 'scroll',
+    features: [
+      { text: 'NoSugar watermark', type: 'minus' },
+      { text: 'Basic template & theme', type: 'check' },
+      { text: 'No customization', type: 'minus' },
+      { text: 'Community support', type: 'check' },
+    ],
+  },
+  {
+    id: 'standard',
+    name: 'Standard',
+    price: '490',
+    priceSuffix: 'THB — one time',
+    tagline: 'Buy once, customize forever',
+    featured: true,
+    ctaLabel: 'Get Standard →',
+    ctaAction: 'kofi',
+    features: [
+      { text: 'No watermark', type: 'check' },
+      { text: 'Color customization', type: 'check' },
+      { text: 'Add your own image / mascot', type: 'check' },
+      { text: 'Simple animations', type: 'check' },
+      { text: '1 Template + 1 Theme', type: 'check' },
+      { text: 'Add-on support', type: 'check' },
+    ],
+  },
+  {
+    id: 'premium',
+    name: 'Premium',
+    price: '1,400+',
+    priceSuffix: 'THB',
+    tagline: 'Customize only for you',
+    featured: false,
+    ctaLabel: 'Contact Me',
+    ctaAction: 'contact',
+    features: [
+      { text: '1:1 design discussion', type: 'star' },
+      { text: 'Unique code — only yours', type: 'star' },
+      { text: 'Custom design & animation', type: 'star' },
+      { text: '7-day bug fixing', type: 'star' },
+      { text: 'Full month Discord support', type: 'star' },
+    ],
+  },
+]
