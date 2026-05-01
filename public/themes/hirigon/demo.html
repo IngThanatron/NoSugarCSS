@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Hirigon Demo</title>
+  <link rel="stylesheet" href="./Hirigon.css"/>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      background: transparent;
+      overflow: hidden;
+    }
+    #fakebody { padding: 8px; }
+
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .msg-new {
+      animation: msgIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+  </style>
+</head>
+<body>
+<div id="fakebody">
+  <yt-live-chat-renderer>
+    <yt-live-chat-item-list-renderer id="msgList">
+
+      <yt-live-chat-text-message-renderer author-type="owner">
+        <div id="author-photo"><img src="" alt=""/></div>
+        <div id="content">
+          <span id="timestamp">12:00</span
+          ><span id="author-badges"><yt-live-chat-author-badge-renderer type="owner"></yt-live-chat-author-badge-renderer></span
+          ><span id="author-name" type="owner">HirigonOwner</span
+          ><span id="message">Darkness awaits! 🔥</span>
+        </div>
+      </yt-live-chat-text-message-renderer>
+
+      <yt-live-chat-text-message-renderer author-type="moderator">
+        <div id="author-photo"><img src="" alt=""/></div>
+        <div id="content">
+          <span id="timestamp">12:00</span
+          ><span id="author-badges"><yt-live-chat-author-badge-renderer type="moderator"></yt-live-chat-author-badge-renderer></span
+          ><span id="author-name" type="moderator">CrimsonMod</span
+          ><span id="message">Chat rules apply. Stay sharp. ⚔️</span>
+        </div>
+      </yt-live-chat-text-message-renderer>
+
+      <yt-live-chat-text-message-renderer author-type="member">
+        <div id="author-photo"><img src="" alt=""/></div>
+        <div id="content">
+          <span id="timestamp">12:00</span
+          ><span id="author-badges"><yt-live-chat-author-badge-renderer type="member"></yt-live-chat-author-badge-renderer></span
+          ><span id="author-name" type="member">DarkMember</span
+          ><span id="message">This theme is intense 💀</span>
+        </div>
+      </yt-live-chat-text-message-renderer>
+
+      <yt-live-chat-text-message-renderer>
+        <div id="author-photo"><img src="" alt=""/></div>
+        <div id="content">
+          <span id="timestamp">12:00</span
+          ><span id="author-name">ShadowViewer</span
+          ><span id="message">Love the dark aesthetic</span>
+        </div>
+      </yt-live-chat-text-message-renderer>
+
+    </yt-live-chat-item-list-renderer>
+  </yt-live-chat-renderer>
+</div>
+
+<script>
+  const msgList = document.getElementById('msgList');
+
+  function getNow() {
+    const d = new Date();
+    return d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+
+  function addMessage({ user, text, role }) {
+    const el = document.createElement('yt-live-chat-text-message-renderer');
+    if (role && role !== 'normal') el.setAttribute('author-type', role);
+
+    let badgeHtml = '';
+    if (role === 'owner' || role === 'moderator' || role === 'member') {
+      badgeHtml = `<span id="author-badges"><yt-live-chat-author-badge-renderer type="${role}"></yt-live-chat-author-badge-renderer></span>`;
+    }
+
+    const nameType = (role && role !== 'normal') ? ` type="${role}"` : '';
+
+    el.innerHTML = `
+      <div id="author-photo"><img src="" alt=""/></div>
+      <div id="content">
+        <span id="timestamp">${getNow()}</span>${badgeHtml}<span id="author-name"${nameType}>${user}</span><span id="message">${text}</span>
+      </div>
+    `;
+    el.classList.add('msg-new');
+    msgList.appendChild(el);
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
+  window.addEventListener('message', (e) => {
+    if (e.data && e.data.type === 'addMessage') addMessage(e.data);
+  });
+</script>
+</body>
+</html>

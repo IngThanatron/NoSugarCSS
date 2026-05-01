@@ -7,6 +7,8 @@ import { HomePage } from '@/pages/HomePage'
 import { CustomizePage } from '@/pages/CustomizePage'
 import { ThemeCatalogPage } from '@/pages/ThemeCatalogPage'
 import { ThemeDetailPage } from '@/pages/ThemeDetailPage'
+import { PastWorkPage } from '@/pages/PastWorkPage'
+import { PastWorkDetailPage } from '@/pages/PastWorkDetailPage'
 
 function WithChrome({ children }: { children: React.ReactNode }) {
   return (
@@ -27,6 +29,8 @@ export default function App() {
         <Route path="/" element={<WithChrome><HomePage /></WithChrome>} />
         <Route path="/themes" element={<WithChrome><ThemeCatalogPage /></WithChrome>} />
         <Route path="/themes/:themeId" element={<WithChrome><ThemeDetailPage /></WithChrome>} />
+        <Route path="/past-work" element={<WithChrome><PastWorkPage /></WithChrome>} />
+        <Route path="/past-work/:themeId" element={<WithChrome><PastWorkDetailPage /></WithChrome>} />
         <Route path="/customize" element={<CustomizePage />} />
       </Routes>
     </BrowserRouter>

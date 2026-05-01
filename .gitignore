@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.vercel
+
+# Past work templates (local reference files, not part of the site build)
+CSS-chat-main/

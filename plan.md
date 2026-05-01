@@ -428,3 +428,88 @@ Each phase = independently deployable Vercel URL.
 
 - `project/index.html` — primary design (brand, hero, pricing, demo, all component structure)
 - `project/customize.html` — customizer design (CSS generator logic, sidebar controls, default config)
+
+---
+
+## Phase 8 — Past Work (`/past-work`)
+
+Showcase all templates from `CSS-chat-main/` as interactive demos. Each template gets a detail page at `/past-work/<id>` where visitors can see the real CSS rendered in an iframe and send messages as different chat roles.
+
+### Architecture
+
+- `/past-work` → `src/pages/PastWorkPage.tsx` — card grid with filter bar (All / Dark / Light / Warm / Colorful)
+- `/past-work/:themeId` → `src/pages/PastWorkDetailPage.tsx` — info panel + iframe demo + per-role send buttons
+- Static demo files live in `public/themes/<id>/` — served by Vite, NOT from `CSS-chat-main/` (which is git-ignored)
+- Iframe receives messages via `postMessage({ type: 'addMessage', user, text, role })`
+
+### Status
+
+| Template | Card on /past-work | Detail page              | Static files in public/         |
+|----------|--------------------|--------------------------|---------------------------------|
+| BlueRain | ✅ done            | ✅ `/past-work/bluerain` | ✅ `public/themes/bluerain/`   |
+| Luxury   | ✅ card exists     | ⬜ todo                  | ⬜ todo                         |
+| Meimi    | ✅ card exists     | ⬜ todo                  | ⬜ todo                         |
+| Hirigon  | ✅ card exists     | ⬜ todo                  | ⬜ todo                         |
+| Reenie   | ✅ card exists     | ⬜ todo                  | ⬜ todo                         |
+| Sheep    | ✅ card exists     | ⬜ todo                  | ⬜ todo                         |
+| Puipui   | ⬜ add card        | ⬜ todo                  | ⬜ todo                         |
+
+> **Not planned:** `CSS-chat/` (the customizer app), `goalMeter/` (OBS widget), `pureCSS/` (experiment), `Cargo/` (CSS shapes experiment)
+
+### Template details (for implementation reference)
+
+| Template | Font        | Layout  | Name bg   | Msg bg    | Owner     | Mod       | Member    | Normal    |
+|----------|-------------|---------|-----------|-----------|-----------|-----------|-----------|-----------|
+| Luxury   | Srisakdi    | stacked | `#153448` | `#f9e4d4` | `#fe6a5e` | `#ffad00` | `#52a2bb` | `#8db5fd` |
+| Meimi    | Pridi       | inline  | none      | `#ffffff` | `#fc8ab5` | `#e18cff` | `#ffcf52` | `#5bceff` |
+| Hirigon  | Pridi       | inline  | none      | `#4e454f` | `#ffa729` | `#cf1527` | `#771422` | `#771422` |
+| Reenie   | KoHo        | stacked | `#a2cbe2` | `#ffffff` | `#242a48` | `#141e61` | `#4b527e` | `#4b527e` |
+| Sheep    | Mitr        | inline  | none      | `#4e454f` | `#fcc75f` | `#fcc75f` | `#ffbbb6` | `#4e454f` |
+| Puipui   | TBD (large CSS) | TBD | TBD     | TBD       | TBD       | TBD       | TBD       | TBD       |
+
+### How to add each remaining template
+
+**Step 1 — Copy CSS to public:**
+```bash
+mkdir -p public/themes/<id>
+cp CSS-chat-main/<Folder>/<Name>.css public/themes/<id>/<Name>.css
+```
+
+**Step 2 — Create `public/themes/<id>/demo.html`:**
+Copy `public/themes/bluerain/demo.html`, change the CSS `<link>` href to `./<Name>.css`.
+Seed messages match the `yt-live-chat-*` HTML structure already in the file — no JS changes needed.
+
+**Step 3 — Add to `WORKS` in `src/pages/PastWorkDetailPage.tsx`:**
+```ts
+<id>: {
+  name: '...',
+  desc: '...',
+  tags: [...],
+  demoUrl: '/themes/<id>/demo.html',
+  accentColor: '...',
+  bgColor: '...',           // iframe background color
+  font: '...',
+  roles: {
+    owner:     { user: '...', messages: ['...', '...', '...'] },
+    moderator: { user: '...', messages: ['...', '...', '...'] },
+    member:    { user: '...', messages: ['...', '...', '...'] },
+    normal:    { user: '...', messages: ['...', '...', '...', '...'] },
+  },
+}
+```
+
+**Step 4 — Set `detailRoute` on the card in `src/pages/PastWorkPage.tsx`:**
+```ts
+// Find the entry with id: '<id>' and add:
+detailRoute: '/past-work/<id>',
+```
+
+No route changes needed — `/past-work/:themeId` wildcard already covers all IDs.
+
+### Suggested order
+1. **Luxury** — most visually distinctive (Thai font, cream/peach palette)
+2. **Sheep** — popular cozy aesthetic, heart divider is a nice talking point
+3. **Meimi** — colorful per-role names, best demo of role differentiation
+4. **Hirigon** — dark/dramatic, strong visual contrast
+5. **Reenie** — structurally similar to BlueRain, fast to add
+6. **Puipui** — CSS file is very large (~450KB with embedded images), read `:root` vars first

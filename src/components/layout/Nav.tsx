@@ -71,6 +71,15 @@ export function Nav() {
             Themes
           </Link>
           <Link
+            to="/past-work"
+            onClick={() => setMenuOpen(false)}
+            style={{ color: 'var(--warm-mid)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--warm-dark)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--warm-mid)')}
+          >
+            Past Work
+          </Link>
+          <Link
             to="/customize"
             onClick={() => setMenuOpen(false)}
             style={{ color: 'var(--warm-mid)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' }}
